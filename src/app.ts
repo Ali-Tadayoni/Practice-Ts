@@ -46,14 +46,46 @@ class ProjectInput {
     this.configure();
     this.attach();
   }
+
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputElemet.value;
+    const enteredDescription = this.descriptionInputElemet.value;
+    const enteredPeople = this.peopleInputElemet.value;
+
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredDescription.trim().length === 0 ||
+      enteredPeople.trim().length === 0
+    ) {
+      alert("invali input! please try again ");
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+
+  private clearInputs() {
+    this.titleInputElemet.value = "";
+    this.descriptionInputElemet.value = "";
+    this.peopleInputElemet.value = "";
+  }
+
   @autobind
   private submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.titleInputElemet.value);
+
+    const userInput = this.gatherUserInput();
+    if (Array.isArray(userInput)) {
+      const [title, description, people] = userInput;
+      console.log(title);
+      console.log(description);
+      console.log(people);
+    }
+    this.clearInputs();
   }
 
   private configure() {
-    this.element.addEventListener("submit", this.submitHandler.bind(this));
+    this.element.addEventListener("submit", this.submitHandler);
   }
 
   private attach() {
